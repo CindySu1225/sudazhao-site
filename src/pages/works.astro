@@ -1,0 +1,103 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import ArtworkCard from "../components/ArtworkCard.astro";
+import worksBg from "../assets/works-bg.png";
+
+const artworks = await getCollection("artworks");
+
+// 不按时间排序,而是按画面比例(竖幅 / 横幅)把尺寸相近的作品聚在一起,
+// 再用瀑布流布局紧密排列,尽量不留空位,同时保留每幅画不裁切。
+type Art = (typeof artworks)[number];
+const ratio = (a: Art) => a.data.image.width / a.data.image.height;
+const byOrder = (a: Art, b: Art) => a.data.order - b.data.order;
+
+const portraits = artworks.filter((a) => ratio(a) < 1).sort(byOrder);
+const landscapes = artworks.filter((a) => ratio(a) >= 1).sort(byOrder);
+// 竖幅在前、横幅在后,让相同形状的作品成片出现。
+const ordered = [...portraits, ...landscapes];
+---
+
+<Base title="作品集" description="苏大朝的绘画作品集。">
+  <div
+    class="page-bg"
+    aria-hidden="true"
+    style={`background-image: url(${worksBg.src})`}
+  >
+  </div>
+  <section class="container gallery">
+    <header class="page-head">
+      <p class="eyebrow">作品集</p>
+      <h1>作品集</h1>
+    </header>
+
+    {
+      ordered.length > 0 ? (
+        <ul class="masonry">
+          {ordered.map((art) => (
+            <li>
+              <ArtworkCard
+                image={art.data.image}
+                title={art.data.title}
+                year={art.data.year}
+                medium={art.data.medium}
+                size={art.data.size}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="muted empty">
+          暂无作品。请在 <code>src/content/artworks/</code> 中添加。
+        </p>
+      )
+    }
+  </section>
+</Base>
+
+<style>
+  /* 与内页同款:用一幅作品的笔触作整页垫底背景。作品页内容跨整宽,
+     用一层均匀的白纱保证所有卡片说明文字都清晰,线条仍隐约可见。 */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .page-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.62);
+  }
+  .gallery {
+    position: relative;
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .page-head {
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .page-head h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+  /* 瀑布流:多列布局,作品紧密堆叠,不留行间空位。 */
+  .masonry {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    column-width: 300px;
+    column-gap: clamp(1.25rem, 3vw, 2.25rem);
+  }
+  .masonry > li {
+    break-inside: avoid;
+    margin-bottom: clamp(1.25rem, 3vw, 2.25rem);
+  }
+  .empty {
+    padding-block: 4rem;
+    text-align: center;
+  }
+</style>

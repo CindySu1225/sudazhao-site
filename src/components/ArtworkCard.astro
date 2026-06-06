@@ -1,0 +1,62 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  image: ImageMetadata;
+  title: string;
+  year?: number | string;
+  medium?: string;
+  size?: string;
+}
+
+const { image, title, year, medium, size } = Astro.props;
+const meta = [medium, size, year].filter(Boolean).join(" · ");
+---
+
+<figure class="card">
+  <div class="card__frame">
+    <Image
+      src={image}
+      alt={title}
+      widths={[400, 800, 1200]}
+      sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+      loading="lazy"
+    />
+  </div>
+  <figcaption class="card__caption">
+    <span class="card__title">{title}</span>
+    {meta && <span class="muted card__meta">{meta}</span>}
+  </figcaption>
+</figure>
+
+<style>
+  .card {
+    margin: 0;
+  }
+  .card__frame {
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .card__frame :global(img) {
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease;
+  }
+  .card:hover .card__frame :global(img) {
+    transform: scale(1.03);
+  }
+  .card__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+  }
+  .card__title {
+    letter-spacing: 0.02em;
+  }
+  .card__meta {
+    font-size: 0.82rem;
+  }
+</style>

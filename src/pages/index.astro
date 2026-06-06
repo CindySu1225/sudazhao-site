@@ -1,0 +1,151 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import ArtworkCard from "../components/ArtworkCard.astro";
+import homeBg from "../assets/home-bg.png";
+
+const artworks = (await getCollection("artworks")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const hero = artworks.find((a) => a.data.featured) ?? artworks[0];
+const featured = artworks.filter((a) => a.id !== hero?.id).slice(0, 3);
+---
+
+<Base>
+  <div
+    class="page-bg"
+    aria-hidden="true"
+    style={`background-image: url(${homeBg.src})`}
+  >
+  </div>
+  {
+    hero && (
+      <section class="hero">
+        <div class="hero__media">
+          <Image
+            src={hero.data.image}
+            alt={hero.data.title}
+            widths={[800, 1400, 2000]}
+            sizes="100vw"
+            loading="eager"
+          />
+        </div>
+        <div class="hero__caption container">
+          <p class="eyebrow">超现实治愈主义画家</p>
+          <h1>苏大朝</h1>
+          <p class="muted hero__sub">以色彩与梦境,为心灵留一处栖息之地</p>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    featured.length > 0 && (
+      <section class="container gallery">
+        <div class="section-head">
+          <h2>精选作品</h2>
+          <a href="/works" class="more">查看全部作品 →</a>
+        </div>
+        <ul class="grid">
+          {featured.map((art) => (
+            <li>
+              <ArtworkCard
+                image={art.data.image}
+                title={art.data.title}
+                year={art.data.year}
+                medium={art.data.medium}
+                size={art.data.size}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    artworks.length === 0 && (
+      <section class="container">
+        <p class="muted empty">
+          暂无作品。请在 <code>src/content/artworks/</code> 中添加。
+        </p>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  /* 整页垫底背景:固定铺满视口,大图英雄区之下的"精选作品"区域
+     会透出这幅作品的暖色笔触。均匀白纱保证文字清晰。 */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    /* 降饱和让明黄变淡,提对比让笔触线条更深更清晰。 */
+    filter: saturate(0.55) contrast(1.28);
+    pointer-events: none;
+  }
+  .page-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.62);
+  }
+  .hero {
+    position: relative;
+  }
+  .hero__media {
+    position: relative;
+    overflow: hidden;
+    max-height: 78vh;
+  }
+  .hero :global(img) {
+    width: 100%;
+    max-height: 78vh;
+    object-fit: cover;
+  }
+  .hero__caption {
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .hero__sub {
+    letter-spacing: 0.06em;
+  }
+  .gallery {
+    padding-block: 1rem 2rem;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-head h2 {
+    font-size: 1.4rem;
+    margin: 0;
+    letter-spacing: 0.08em;
+  }
+  .more {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .empty {
+    padding-block: 4rem;
+    text-align: center;
+  }
+</style>
