@@ -12,3 +12,9 @@ node_modules/
 _source-images/
 # local machine-only Claude settings
 .claude/settings.local.json
+
+# 水印样图临时目录
+_watermark-samples/
+# 原始作品/展览源图(未打水印的高清原图,不上传公开仓库)
+/artwork/
+/exhibition/

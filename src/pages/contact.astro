@@ -15,7 +15,15 @@ import contactBg from "../assets/contact-bg.jpeg";
     <h1>联系我</h1>
     <div class="contact__body">
       <p>关于作品购藏、委托创作或展览合作,欢迎与我联系。</p>
-      <p class="contact__note">在线联系表单即将上线,敬请期待。</p>
+      <a
+        class="contact__qr"
+        href="https://www.xiaohongshu.com/user/profile/57b9eba450c4b43f1db940e2"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="/xhs-qr.svg" alt="苏大朝小红书二维码" width="150" height="150" />
+        <span>扫码关注我的小红书或和我联系</span>
+      </a>
     </div>
   </section>
 </Base>
@@ -54,8 +62,27 @@ import contactBg from "../assets/contact-bg.jpeg";
     margin-top: 1.5rem;
     font-size: 1.05rem;
   }
-  .contact__note {
-    margin-top: 1.25rem;
+  .contact__qr {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 1.75rem;
+    padding: 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+    font-size: 0.92rem;
     color: var(--color-text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact__qr img {
+    display: block;
+    width: 150px;
+    height: 150px;
+  }
+  .contact__qr:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
   }
 </style>

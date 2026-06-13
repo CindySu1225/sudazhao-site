@@ -1,0 +1,277 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+
+import studio from "../assets/exhibition/studio.jpg";
+import veniceTable from "../assets/exhibition/venice-table.jpg";
+import venicePanels from "../assets/exhibition/venice-panels.jpg";
+import veniceViewers from "../assets/exhibition/venice-viewers.jpg";
+import italyAward from "../assets/exhibition/italy-award.jpg";
+import artfair1 from "../assets/exhibition/artfair-1.jpg";
+import artfair2 from "../assets/exhibition/artfair-2.jpg";
+import galleryCat from "../assets/exhibition/gallery-cat.jpg";
+import galleryOpening from "../assets/exhibition/gallery-opening.jpg";
+import galleryOils from "../assets/exhibition/gallery-oils.jpg";
+
+// 展览现场照片。caption 为页面配文,note 为我对图片内容的判断(供核对,不显示)。
+const gallery = [
+  { src: veniceTable, caption: "第61届威尼斯国际艺术双年展 · 中国艺术特展周，威尼斯" },
+  { src: venicePanels, caption: "第61届威尼斯国际艺术双年展 · 中国艺术特展周 展出现场" },
+  { src: veniceViewers, caption: "中国艺术特展周现场，观众驻足观展" },
+  { src: italyAward, caption: "国际艺术大赛颁奖典礼（意大利）" },
+  { src: artfair1, caption: "国际艺术博览会现场" },
+  { src: artfair2, caption: "国际艺术博览会现场，海外观众观展" },
+  { src: galleryCat, caption: "美术馆展览现场" },
+  { src: galleryOpening, caption: "展览开幕现场" },
+  { src: galleryOils, caption: "油画作品展出现场" },
+];
+
+const exhibitions = [
+  "第61届威尼斯国际艺术双年展 · 中国艺术特展周（意大利 · 威尼斯）",
+  "第141届 Art Capital 国际艺术展 · 巴黎大皇宫（法国 · 巴黎）",
+  "卢浮宫国际艺术展（法国 · 巴黎）",
+  "法国第16届国际当代艺术沙龙展 ·「回声：当代艺术展」（巴黎凡尔赛国际会展中心）",
+  "洛桑国际当代艺术博览会 ·「共振：当代艺术展」（瑞士 · 洛桑博利厄宫）",
+  "「流变：当代中国绘画艺术展」",
+  "纽约、迪拜国际艺术博览会",
+  "意大利、法国、俄罗斯、新西兰等国际大展",
+];
+
+const awards = [
+  "国际艺术大赛 杰出人才奖",
+  "世界艺术奖 季军",
+  "国际艺术大赛 特别优秀奖",
+];
+
+const collections = [
+  "作品被海外权威美术馆收藏",
+  "作品刊发于《读者》《人民代表报》《中国收藏》《艺术市场》等刊物",
+];
+
+const roles = [
+  "华夏文化促进会 副主席",
+  "宣和艺术院 副院长 兼 深圳分院 院长",
+  "法国美术家协会 会员",
+  "美国油画丙烯画协会 会员",
+];
+
+const media = [
+  {
+    outlet: "搜狐网",
+    title: "苏大朝数字艺术惊艳巴黎大皇宫：新古典之美与东西方对话交融",
+    url: "https://m.sohu.com/coo/sg/862668539_122066675",
+  },
+  {
+    outlet: "网易",
+    title: "苏大朝 |「流变：当代中国绘画艺术展」",
+    url: "https://www.163.com/dy/article/J2DMTB6K05341XSX.html",
+  },
+  {
+    outlet: "今日头条",
+    title: "画家苏大朝受聘华夏文化促进会副主席　以国际视野书东方美学新篇章",
+    url: "https://www.toutiao.com/article/7647909350081626664/",
+  },
+  {
+    outlet: "今日头条",
+    title: "苏大朝佳作亮相第61届威尼斯国际艺术双年展中国艺术特展周",
+    url: "https://www.toutiao.com/article/7643636170123002374/",
+  },
+  {
+    outlet: "微信公众号",
+    title: "细腻且独具创意：苏大朝 | 巴黎「回声：当代艺术展」",
+    url: "https://mp.weixin.qq.com/s/TJxKPj0tfodw-MSYWofEAg",
+  },
+  {
+    outlet: "微信公众号",
+    title: "巴黎凡尔赛国际会展中心 |「法国第16届国际当代艺术沙龙展」暨「回声：当代艺术展」开幕",
+    url: "https://mp.weixin.qq.com/s/OCDnKjqsP_Gpqf4Ze6tu0w",
+  },
+  {
+    outlet: "微信公众号",
+    title: "聚焦瑞士洛桑博利厄宫 |「洛桑国际当代艺术博览会」暨「共振：当代艺术展」开幕",
+    url: "https://mp.weixin.qq.com/s/clKej8X9NsFvEd_bPp8G4g",
+  },
+];
+---
+
+<Base title="展览与媒体" description="画家苏大朝的展览、获奖、收藏与媒体报道。">
+  <section class="container press">
+    <p class="eyebrow">展览与媒体</p>
+    <h1>展览 · 荣誉 · 媒体</h1>
+
+    <div class="press__intro">
+      <Image
+        class="press__portrait"
+        src={studio}
+        alt="苏大朝在工作室创作"
+        widths={[400, 800]}
+        sizes="(max-width: 720px) 100vw, 420px"
+        loading="eager"
+      />
+      <div class="press__bio">
+        <p>
+          苏大朝，1993 年生，自幼潜心绘画，学院派功底扎实。本科毕业于复旦大学上海视觉艺术学院，先后深造于中国美术学院油画高研班与中国艺术研究院，是一位兼具学院底蕴与国际视野的青年艺术家。
+        </p>
+        <p>
+          他的创作聚焦具象、抽象与动物题材，以国际化的艺术语言诠释东方审美，风格鲜明、语言独特。作品连年在美国、法国、意大利等国际艺术大赛中获奖，并先后亮相巴黎大皇宫、卢浮宫、威尼斯双年展、纽约与迪拜国际艺博会等艺术舞台，多次入选意大利、法国、俄罗斯、新西兰等国际大展，被海外美术馆收藏。
+        </p>
+      </div>
+    </div>
+
+    <h2 class="press__h2">展览现场</h2>
+    <div class="gallery">
+      {
+        gallery.map((g) => (
+          <figure class="gallery__item">
+            <Image
+              src={g.src}
+              alt={g.caption}
+              widths={[400, 800]}
+              sizes="(max-width: 720px) 100vw, 33vw"
+              loading="lazy"
+            />
+            <figcaption>{g.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="cv">
+      <section class="cv__block">
+        <h2 class="press__h2">重要展览</h2>
+        <ul>{exhibitions.map((x) => <li>{x}</li>)}</ul>
+      </section>
+
+      <section class="cv__block">
+        <h2 class="press__h2">获奖荣誉</h2>
+        <ul>{awards.map((x) => <li>{x}</li>)}</ul>
+      </section>
+
+      <section class="cv__block">
+        <h2 class="press__h2">收藏与出版</h2>
+        <ul>{collections.map((x) => <li>{x}</li>)}</ul>
+      </section>
+
+      <section class="cv__block">
+        <h2 class="press__h2">社会职务</h2>
+        <ul>{roles.map((x) => <li>{x}</li>)}</ul>
+      </section>
+    </div>
+
+    <h2 class="press__h2">媒体报道</h2>
+    <ul class="media">
+      {
+        media.map((m) => (
+          <li>
+            <a href={m.url} target="_blank" rel="noopener noreferrer">
+              <span class="media__outlet">{m.outlet}</span>
+              <span class="media__title">{m.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .press {
+    padding-block: clamp(2rem, 6vw, 5rem);
+    max-width: 960px;
+  }
+
+  .press__intro {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    align-items: flex-start;
+    margin-top: 1.5rem;
+  }
+  .press__portrait {
+    width: clamp(160px, 36vw, 380px);
+    height: auto;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .press__bio {
+    min-width: 0;
+    font-size: 1.05rem;
+  }
+  .press__bio p {
+    margin: 0 0 1em;
+  }
+  @media (max-width: 640px) {
+    .press__intro {
+      flex-direction: column;
+    }
+    .press__portrait {
+      width: 100%;
+    }
+  }
+
+  .press__h2 {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    margin-top: 2.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    margin-top: 1.25rem;
+  }
+  .gallery__item {
+    margin: 0;
+  }
+  .gallery__item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .gallery__item figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .cv {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0 clamp(2rem, 5vw, 4rem);
+  }
+  .cv__block ul {
+    margin: 0.75rem 0 0;
+    padding-left: 1.1em;
+  }
+  .cv__block li {
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+  }
+
+  .media {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+  }
+  .media li {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .media a {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.85rem 0;
+  }
+  .media__outlet {
+    flex-shrink: 0;
+    width: 6.5em;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+  .media__title {
+    min-width: 0;
+  }
+</style>
