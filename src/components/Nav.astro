@@ -12,7 +12,18 @@ const path = Astro.url.pathname;
 <header class="nav">
   <div class="container nav__inner">
     <a href="/" class="nav__brand">苏大朝</a>
-    <nav>
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-label="打开菜单"
+      aria-expanded="false"
+      aria-controls="nav-menu"
+    >
+      <span class="nav__bar"></span>
+      <span class="nav__bar"></span>
+      <span class="nav__bar"></span>
+    </button>
+    <nav id="nav-menu" class="nav__menu">
       <ul class="nav__list">
         {
           links.map((l) => (
@@ -31,6 +42,27 @@ const path = Astro.url.pathname;
     </nav>
   </div>
 </header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".nav__toggle");
+  const menu = document.getElementById("nav-menu");
+
+  function setOpen(open: boolean) {
+    toggle?.setAttribute("aria-expanded", String(open));
+    toggle?.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+    menu?.classList.toggle("nav__menu--open", open);
+  }
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    setOpen(!open);
+  });
+
+  // 点击任一链接后收起菜单
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => setOpen(false))
+  );
+</script>
 
 <style>
   .nav {
@@ -51,6 +83,7 @@ const path = Astro.url.pathname;
     font-size: 1.25rem;
     letter-spacing: 0.24em;
     padding-left: 0.24em;
+    white-space: nowrap;
   }
   .nav__list {
     display: flex;
@@ -63,8 +96,77 @@ const path = Astro.url.pathname;
     font-size: 0.95rem;
     letter-spacing: 0.12em;
     color: var(--color-text-muted);
+    white-space: nowrap;
   }
   .nav__link[aria-current="page"] {
     color: var(--color-text);
+  }
+
+  /* 汉堡按钮:桌面端隐藏 */
+  .nav__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    padding: 9px 10px;
+    margin-right: -10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .nav__bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-text);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  @media (max-width: 640px) {
+    .nav__toggle {
+      display: flex;
+    }
+    /* 打开时三条横线变 X */
+    .nav__toggle[aria-expanded="true"] .nav__bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav__toggle[aria-expanded="true"] .nav__bar:nth-child(2) {
+      opacity: 0;
+    }
+    .nav__toggle[aria-expanded="true"] .nav__bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* 菜单收起为下拉面板 */
+    .nav__menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: color-mix(in srgb, var(--color-bg) 97%, transparent);
+      backdrop-filter: saturate(150%) blur(8px);
+      border-bottom: 1px solid var(--color-line);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+    .nav__menu--open {
+      max-height: 70vh;
+    }
+    .nav__list {
+      flex-direction: column;
+      gap: 0;
+      padding: 0.25rem 0 0.75rem;
+    }
+    .nav__list li {
+      width: 100%;
+    }
+    .nav__link {
+      display: block;
+      padding: 0.9rem clamp(1rem, 5vw, 1.5rem);
+      font-size: 1.05rem;
+    }
   }
 </style>

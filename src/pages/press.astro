@@ -92,6 +92,20 @@ const media = [
     url: "https://mp.weixin.qq.com/s/clKej8X9NsFvEd_bPp8G4g",
   },
 ];
+
+// 意大利艺术评论家 Calogero Cordaro 撰写的评论，中文译文。
+const critique = {
+  title: "苏大朝的超现实宇宙",
+  author: "卡洛杰罗·科尔达罗（Calogero Cordaro）",
+  authorTitle: "意大利艺术评论家",
+  paragraphs: [
+    "在方兴未艾的中国当代艺术图景中，鲜有艺术家能像苏大朝这样，以如此细腻而独到的方式，将动物形象与梦境般的超现实氛围融为一体。苏大朝 1993 年生于中国深圳，很快便跻身于探索自然、想象与现实之关系的最具潜力的青年艺术家之列。他的创作以动物为题材，将其置于违背逻辑与感知法则的情境之中，构筑出一个邀请观者去思索自然世界之复杂与奇妙、并对其作更深层解读的视觉宇宙。",
+    "苏大朝笔下的动物种类繁多：从鸟、鱼、哺乳动物这些寻常之物，到虎、凤凰乃至神话生灵等更为奇异的形象。这些题材并非简单的写实再现，而升华为一个由欲望、恐惧与梦想构成的内心世界的象征。以动物为画面主角，本属于一种将生灵视作人类情感与社会动态之映照的艺术传统；然而苏大朝以其超现实的手法独树一帜，将这些形象转化为近乎神话般的存在，悬浮于现实与幻想之间。",
+    "苏大朝作品最引人入胜之处，在于弥漫于每一幅构图之中的非真实氛围。他的色彩明亮而常常超乎自然，营造出一种疏离与惊奇之感。画布的背景往往晕染朦胧，色调令人联想到梦境，与主体相互交融，使现实与幻想之间的界限难以辨明。这种色彩与构图上的选择，将观者沉浸于一个平行世界之中——在那里，物理与逻辑的法则被悬置，为想象与沉思留出空间。",
+    "在技法上，苏大朝融合多种传统手段，常以层层叠加的色彩与肌理，营造出深邃与流动之感。他的绘画以细节的细腻见长，能够营造出空灵、近乎流动的氛围，仿佛游移于梦境与现实之间。他的美学汲取了东西方交融的灵感，既呼应中国传统绘画，也承袭超现实主义与当代数字艺术等艺术思潮。",
+    "苏大朝的作品触及诸多深刻的主题：蜕变、身份认同、人与自然的关系，以及在变动不居的世界中对意义的追寻。",
+  ],
+};
 ---
 
 <Base title="展览与媒体" description="画家苏大朝的展览、获奖、收藏与媒体报道。">
@@ -117,6 +131,18 @@ const media = [
         </p>
       </div>
     </div>
+
+    <section class="critique">
+      <h2 class="press__h2">艺术评论</h2>
+      <article class="critique__essay">
+        <h3 class="critique__title">《{critique.title}》</h3>
+        {critique.paragraphs.map((p) => <p>{p}</p>)}
+        <p class="critique__sign">
+          —— {critique.author}
+          <span class="critique__role">{critique.authorTitle}</span>
+        </p>
+      </article>
+    </section>
 
     <h2 class="press__h2">展览现场</h2>
     <div class="gallery">
@@ -273,5 +299,33 @@ const media = [
   }
   .media__title {
     min-width: 0;
+  }
+
+  .critique__essay {
+    margin-top: 1.25rem;
+    max-width: 760px;
+    border-left: 2px solid var(--color-line);
+    padding-left: clamp(1rem, 3vw, 1.75rem);
+  }
+  .critique__title {
+    font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+    font-weight: 600;
+    margin: 0 0 1.1rem;
+  }
+  .critique__essay p {
+    margin: 0 0 1em;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    text-align: justify;
+  }
+  .critique__sign {
+    margin-top: 1.25rem;
+    text-align: right;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+  .critique__role {
+    margin-left: 0.5em;
+    font-size: 0.85rem;
   }
 </style>
